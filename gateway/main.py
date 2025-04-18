@@ -1,17 +1,14 @@
-from fastapi import FastAPI, Request, Body
+import json
+from hashlib import sha256
+
+from fastapi import FastAPI, Body
 from fastapi.middleware.cors import CORSMiddleware
 from redis import Redis
 
-from hashlib import sha256
-import json
-
 from tasks import send_request
-
-
 
 app = FastAPI()
 redis = Redis(host="localhost", port=6379, db=0)
-
 
 app.add_middleware(
     CORSMiddleware,
@@ -43,4 +40,5 @@ async def gateway(data=Body(embed=True)):
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8000)
